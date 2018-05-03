@@ -5,5 +5,6 @@ var config = process.env.firebase
 firebase.initializeApp(config)
 
 export default {
-  database: firebase.database()
+  database: firebase.database(),
+  auth: firebase.auth()
 }
