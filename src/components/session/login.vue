@@ -2,12 +2,12 @@
   <div id="login" class="mdl-grid">
     <div class="mdl-cell mdl-cell--6-col mdl-cell--1-col-phone login-container">
       <!--<img src="../../assets/img/ciudad.png" class="login-city"/>-->
-      <img src="https://www.nationalgeographic.com/content/dam/animals/pictures/mammals/p/platypus/platypus.adapt.590.1.JPG" class="login-city">
+      <img src="https://scontent-qro1-1.xx.fbcdn.net/v/t1.0-9/31606605_10156405980610956_2129413831527497728_n.jpg?_nc_cat=0&_nc_eui2=v1%3AAeF8Ud8AWs_aHuvnKI27XyknbYQyS4Lqujmbc7NpbWvSNdlDlkzrxTWuI56Rv3hkTay95ber28Pf1BY8G0kCeTE6LVkv6qpVZ5ahgnEH2i6zjA&oh=2274140343b58579778e152385a79aa3&oe=5B960335" class="login-city">
     </div>
     <div class="mdl-cell mdl-cell--6-col mdl-cell--1-col-phone login-container">
       <div class="login-form">
         <div class="login-button">
-          <span class="login-facebook">
+          <span class="login-facebook" v-on:click="fbLogin">
             <b>Login</b> with <b>Facebook</b>
           </span>
         </div>
@@ -30,21 +30,23 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import firebaseui from 'firebaseui'
+import firebase from '../../service/firebase'
 
 export default {
   name: 'Login',
-  methods: {},
-  mounted () {
-    var uiConfig = {
-      signInSuccessUrl: 'success',
-      signInOptions: [
-        firebase.auth.FacebookAuthProvider.PROVIDER_ID
-      ]
+  methods: {
+    fbLogin () {
+      console.log('Facebook')
+      console.log(firebase)
+      firebase.auth.signInWithPopup(firebase.providers.facebook)
+        .then(result => {
+          console.log(result)
+          console.log(result.credentials)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
-    var ui = new firebaseui.auth.AuthUI(firebase.auth())
-    ui.start('#lg-fb', uiConfig)
   }
 }
 </script>
