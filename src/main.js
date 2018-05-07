@@ -6,10 +6,16 @@ import router from './router'
 import Vuefire from 'vuefire'
 import Vuex from 'vuex'
 import store from './vuex'
+import VueSession from 'vue-session'
+
+const sessionOptions = {
+  persist: true
+}
 
 Vue.config.productionTip = false
 Vue.use(Vuefire)
 Vue.use(Vuex)
+Vue.use(VueSession, sessionOptions)
 
 /* eslint-disable no-new */
 new Vue({

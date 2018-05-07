@@ -18,11 +18,7 @@ export default {
   computed: {
     ...mapGetters(['user'])
   },
-  mounted: function () {
-    console.log(this)
-    console.log(this.user)
-    console.log(this.$router)
-  }
+  mounted: function () {}
 }
 </script>
 
