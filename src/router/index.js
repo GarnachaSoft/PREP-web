@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '@/components/session/login'
 import Dashboard from '@/components/dashboard/dashboard'
 import User from '@/components/user/user'
+import _ from 'lodash'
 
 Vue.use(Router)
 
@@ -29,10 +30,14 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  let session = JSON.parse(localStorage['vue-session-key'] || '{}')
   if (to.name !== 'Login') {
-    let session = JSON.parse(localStorage['vue-session-key'])
-    if (!session.user) {
+    if (!session.user.session.accessToken) {
       return next('/login')
+    }
+  } else {
+    if (_.has(session, 'user.session.accessToken')) {
+      return next('/')
     }
   }
   next()

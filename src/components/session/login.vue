@@ -36,12 +36,40 @@ export default {
   name: 'Login',
   methods: {
     fbLogin () {
-      console.log('Facebook')
-      console.log(firebase)
+      this.$store.commit('loginRequest')
       firebase.auth.signInWithPopup(firebase.providers.facebook)
         .then(result => {
-          console.log(result)
-          console.log(result.credentials)
+          let info = result.additionalUserInfo
+          let credential = result.credential
+          let extra = result.user
+          let user = {
+            info: {
+              name: info['first_name'],
+              secondName: info.profile['second_name'],
+              middleName: info.profile['middle_name'],
+              lastName: info.profile['last_name'],
+              fullName: info.profile.name,
+              email: info.profile.email,
+              id: info.profile.id,
+              isNew: info.isNewUser,
+              providerId: credential.providerId,
+              method: credential.signInMethdo,
+              created: extra.metadata.creationTime,
+              picture: {
+                url: info.profile.picture.data.url,
+                height: info.profile.picture.data.height,
+                width: info.profile.picture.data.width
+              }
+            },
+            session: {
+              accessToken: credential.accessToken,
+              refreshToken: extra.refreshToken
+            }
+          }
+          this.$session.start()
+          this.$session.set('user', user)
+          this.$store.commit('successLogin', user)
+          this.$router.push('/')
         })
         .catch(error => {
           console.log(error)
