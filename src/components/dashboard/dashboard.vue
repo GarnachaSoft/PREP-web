@@ -11,8 +11,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
-  name: 'Dashboard'
+  name: 'Dashboard',
+  methods: {},
+  computed: {
+    ...mapGetters(['user'])
+  },
+  mounted: function () {
+    console.log(this)
+    console.log(this.user)
+    console.log(this.$router)
+  }
 }
 </script>
 
